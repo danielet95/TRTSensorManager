@@ -1,0 +1,128 @@
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">IOT inc</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a class="disabled">Home</a></li>
+        <li><a class="disabled">About</a></li>
+        <li><a class="disabled">Contact</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="modalLogout.open()">Esci</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header id="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard <small>Monitora i tuoi sensori</small></h1>
+      </div>
+      <div class="col-md-2">
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="active">
+        Dashboard
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="list-group">
+
+          <a routerLink="/dashboard-utenti" class="list-group-item"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard</a>
+          <a routerLink="/sensori-utenti" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Sensori</a>
+          <a routerLink="/profilo-utenti" class="list-group-item"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Il Mio Profilo</a>
+
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-heading main-color-bg">
+            <h3 class="panel-title">Lista sensori</h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <input class="form-control" type="text" placeholder="Cerca sensori.."><br />
+              </div>
+              <div class="col-md-12">
+                <table class="table table-responsive">
+                  <thead align="center">
+                  <tr>
+                    <th> ID </th>
+                    <th> Nome </th>
+                    <th> Tipo </th>
+                    <th> Data Creazione </th>
+                    <th> <span class="glyphicon glyphicon-ok"></span> </th>
+                    <th> </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+
+                  <tr *ngFor="let sensore of listaSensori; let i = index">
+                    <td> {{sensore.codice}} </td>
+                    <td valign="bottom"> {{sensore.nome}}</td>
+                    <td> {{sensore.tipo}} </td>
+                    <td> {{sensore.dataCreazione}} </td>
+                    <td> <input type="checkbox" value="" [checked]="sensore.aggiuntoDashboardUtente" (change)="sensore.aggiuntoDashboardUtente =! sensore.aggiuntoDashboardUtente" /></td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+
+                <a class="btn btn-default" (click)="aggiungiSensoriDashboard()">Aggiungi alla Dashboard</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+
+
+<modal #modalLogout>
+  <modal-content>
+    <h5>Sei sicuro di voler uscire dalla piattaforma?</h5>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" routerLink="">Si</button>
+    <button class="btn btn-primary" (click)="modalLogout.close()">No</button>
+  </modal-footer>
+</modal>

@@ -1,0 +1,179 @@
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">IOT inc</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a class="disabled">Home</a></li>
+        <li><a class="disabled">About</a></li>
+        <li><a class="disabled">Contact</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="modalLogout.open()">Esci</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header id="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard <small>Monitora i tuoi sensori</small></h1>
+      </div>
+      <div class="col-md-2">
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="active">
+        Dashboard
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="list-group">
+
+          <a routerLink="/dashboard" class="list-group-item"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard</a>
+          <a routerLink="/sensori" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Sensori</a>
+          <a routerLink="/utenti" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Utenti</a>
+          <a routerLink="/profilo" class="list-group-item"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Il Mio Profilo</a>
+
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-heading main-color-bg">
+            <h3 class="panel-title">Lista utenti</h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <input class="form-control" type="text" placeholder="Inserisci il cognome dell'utente..." [(ngModel)] = "utentiFilter.cognome"> <br/>
+              </div>
+
+              <div class="col-md-12">
+
+                <table class="table table-responsive">
+                  <thead class="thead-inverse">
+                  <tr>
+                    <th> ID </th>
+                    <th> Nome </th>
+                    <th> Cognome</th>
+                    <th> Username </th>
+                    <th> </th>
+                    <th> </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+
+                  <tr *ngFor="let utente of listaUtenti | filterBy: utentiFilter; let i = index">
+                    <td> {{utente.id}} </td>
+                    <td valign="bottom"> {{utente.nome}} </td>
+                    <td valign="bottom"> {{utente.cognome}} </td>
+                    <td> {{utente.username}} </td>
+                    <td align="center">
+                      <a class="btn btn-default" (click)="apriModificaUtente(i)">Modifica</a>
+                    </td>
+                    <td align="center">
+                      <a class="btn btn-default" (click)="rimuoviUtentePiattaforma(i)"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+
+                <button class="btn btn-default" data-toggle="modal" data-target="#addSensor" (click)="modalAggiuntaUtente.open()">Aggiungi utente</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<modal #modalAggiuntaUtente>
+  <modal-header>
+    <h4>Aggiungi utente alla piattaforma: </h4>
+  </modal-header>
+  <modal-content>
+    <form role="form" method="post">
+      <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" class="form-control" id="nome" #nome placeholder="Inserisci il nome.." />
+        <label for="nome">Cognome:</label>
+        <input type="text" class="form-control" id="cognome" #cognome placeholder="Inserisci il cognome.." />
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" #username placeholder="Inserisci l'username.." />
+        <label for="password">Password:</label>
+        <input type="text" class="form-control" id="password" #password placeholder="Inserisci la password.." />
+      </div>
+    </form>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="aggiungiUtentePiattaforma()">Aggiungi</button>
+  </modal-footer>
+</modal>
+
+<modal #modalModificaUtente>
+  <modal-header>
+    <h4>Modifica dati utente: </h4>
+  </modal-header>
+  <modal-content>
+    <form role="form" method="post">
+      <div class="form-group">
+        <label for="nome">Id: {{u.id}}</label> <br>
+        <label for="nome">Nome:</label>
+        <input type="text" class="form-control" id="nomeModificato" #nomeModificato placeholder="{{u.nome}}" />
+        <label for="nome">Cognome:</label>
+        <input type="text" class="form-control" id="cognomeModificato" #cognomeModificato placeholder="{{u.cognome}}" />
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="usernameModificata" #usernameModificata placeholder="{{u.username}}" />
+      </div>
+    </form>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="modificaUtentePiattaforma()">Modifica</button>
+  </modal-footer>
+</modal>
+
+
+<modal #modalLogout>
+  <modal-content>
+    <h5>Sei sicuro di voler uscire dalla piattaforma?</h5>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" routerLink="">Si</button>
+    <button class="btn btn-primary" (click)="modalLogout.close()">No</button>
+  </modal-footer>
+</modal>
