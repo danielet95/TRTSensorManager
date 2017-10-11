@@ -9,9 +9,10 @@ export class UtentiService {
 
   constructor(private http: Http) {}
 
+  // non serve più
   public setUtente(id, nome, cognome, username, password, amministratore) {
 
-    this.utente.id = id;
+    this.utente.setId(id);
     this.utente.nome = nome;
     this.utente.cognome = cognome;
     this.utente.username = username;
@@ -21,6 +22,7 @@ export class UtentiService {
     console.log(this.utente.nome);
   }
 
+  // non serve più
   public getUtente() {
     return this.utente;
   }
@@ -58,7 +60,7 @@ export class UtentiService {
     );
   }
 
-  public modificaUtente(id, nome, cognome, username, url, onComplete){
+  public modificaUtente(id, nome, cognome, username, url, onComplete) {
 
     const body = JSON.stringify({id: id, nome: nome, cognome: cognome, username: username});
     const headers = new Headers();

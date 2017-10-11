@@ -12,6 +12,7 @@ export class AmministratoriService {
   constructor(private http: Http) {
   }
 
+  // non serve più
   public setId(value) {
     this.idAmministratore = value;
   }
@@ -20,6 +21,7 @@ export class AmministratoriService {
     return this.idAmministratore;
   }
 
+  // non serve più
   public setAmministratore(id, nome, cognome, username, password) {
 
     this.amministratore.id = id;
@@ -31,6 +33,7 @@ export class AmministratoriService {
     console.log(this.amministratore.nome);
   }
 
+  // non serve più
   public getAmministratore() {
     return this.amministratore;
   }

@@ -68,7 +68,7 @@ export class UtentiComponent implements OnInit {
 
     this.modalModificaUtente.open();
 
-    this.u.id = this.listaUtenti[i].id;
+    this.u.setId(this.listaUtenti[i].getId());
     this.u.nome = this.listaUtenti[i].nome;
     this.u.cognome = this.listaUtenti[i].cognome;
     this.u.username = this.listaUtenti[i].username;
@@ -84,7 +84,7 @@ export class UtentiComponent implements OnInit {
       alert('I dati inseriti non sono validi');
     } else {
       const urlModifica = 'http://localhost/ingegneria/src/modificaUtentePiattaforma.php';
-      this.utentiService.modificaUtente(this.u.id, this.nomeModificato.nativeElement.value, this.cognomeModificato.nativeElement.value,
+      this.utentiService.modificaUtente(this.u.getId(), this.nomeModificato.nativeElement.value, this.cognomeModificato.nativeElement.value,
         this.usernameModificata.nativeElement.value, urlModifica,
         () => {
           this.utentiService.postId(this.amministratore.id, 'http://localhost/ingegneria/src/readUtenti.php',
@@ -97,10 +97,12 @@ export class UtentiComponent implements OnInit {
 
   public rimuoviUtentePiattaforma(i) {
     const urlRimozione = 'http://localhost/ingegneria/src/rimuoviUtentePiattaforma.php';
-    this.utentiService.rimuoviUtente(this.listaUtenti[i].id, urlRimozione,
+    this.utentiService.rimuoviUtente(this.listaUtenti[i].getId(), urlRimozione,
       () => {
       this.listaUtenti.splice(i, 1);
     });
   }
+
+
 
 }

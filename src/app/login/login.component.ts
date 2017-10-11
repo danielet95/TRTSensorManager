@@ -65,10 +65,11 @@ export class LoginComponent implements OnInit {
         if (this.listaUtenti[i].username === this.username.nativeElement.value) {
           if (this.listaUtenti[i].password === this.password.nativeElement.value) {
             trovato = true;
-            this.idUtente = this.listaUtenti[i].id;
+            this.idUtente = this.listaUtenti[i].getId();
+
             this.amministratoriService.setId(this.listaUtenti[i].amministratore);
 
-            this.utentiService.setUtente(this.listaUtenti[i].id, this.listaUtenti[i].nome, this.listaUtenti[i].cognome,
+            this.utentiService.setUtente(this.listaUtenti[i].getId(), this.listaUtenti[i].nome, this.listaUtenti[i].cognome,
               this.listaUtenti[i].username, this.listaUtenti[i].password, this.listaUtenti[i].amministratore);
 
             localStorage.setItem('Utente', JSON.stringify(this.listaUtenti[i]));
