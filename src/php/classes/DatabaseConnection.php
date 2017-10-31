@@ -20,7 +20,7 @@ class DatabaseConnection
 
         // Check connection
         if ($this->conn->connect_error) {
-            die('Connection failed: ' . $this->conn->connect_error);
+            trigger_error('Connection failed');
         } else {
 
           mysqli_select_db($this->conn, $this->dbname);
