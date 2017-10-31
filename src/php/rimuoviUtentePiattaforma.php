@@ -10,6 +10,6 @@
 
     if(isset($post['id']) && $post['id']!= null){
 
-        $db->executeQuery("DELETE FROM utente WHERE id='$id'");
+      $query = $db->executeQuery("DELETE FROM utente WHERE id='$id'");
 
     }

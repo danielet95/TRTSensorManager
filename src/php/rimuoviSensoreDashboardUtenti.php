@@ -9,8 +9,6 @@
     $db = new DatabaseConnection();
     $db->connect();
 
-//    if(isset($post['id']) && $post['id']!= null){
 
-        $db->executeQuery("DELETE FROM sensore_utente WHERE sensore='$codice' AND utente='$utente'");
+    $query =$db->executeQuery("DELETE FROM sensore_utente WHERE sensore='$codice' AND utente='$utente'");
 
-//    }

@@ -12,7 +12,7 @@
 //    if (isset($post['codice']) && $post['codice']!= null){
 
 
-        $db->executeQuery("INSERT INTO sensore_utente (sensore, utente)
+        $query = $db->executeQuery("INSERT INTO sensore_utente (sensore, utente)
                                  VALUES ($codice, $id)");
 
 //    }

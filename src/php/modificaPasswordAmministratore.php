@@ -11,4 +11,4 @@
     $db->connect();
 
 
-    $db->executeQuery("UPDATE amministratore SET password='$password' WHERE id='$id'");
+    $query = $db->executeQuery("UPDATE amministratore SET password='$password' WHERE id='$id'");

@@ -11,6 +11,6 @@
 
     if (isset($post['codice']) && $post['codice']!= null){
 
-        $db->executeQuery("UPDATE sensore SET aggiuntoDashboardAmministratore = '$visibilita' WHERE codice = '$codice' ");
+      $query = $db->executeQuery("UPDATE sensore SET aggiuntoDashboardAmministratore = '$visibilita' WHERE codice = '$codice' ");
 
     }

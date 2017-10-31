@@ -14,5 +14,5 @@
     $db->connect();
 
 
-    $db->executeQuery("INSERT INTO utente (nome, cognome, username, password, amministratore)
+    $query = $db->executeQuery("INSERT INTO utente (nome, cognome, username, password, amministratore)
                                   VALUES ('$nome', '$cognome', '$username', '$password', '$amministratore')");

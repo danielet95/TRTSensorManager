@@ -13,4 +13,4 @@
     $db->connect();
 
 
-    $db->executeQuery("UPDATE utente SET nome='$nome', cognome='$cognome', username='$username' WHERE id='$id'");
+    $query = $db->executeQuery("UPDATE utente SET nome='$nome', cognome='$cognome', username='$username' WHERE id='$id'");

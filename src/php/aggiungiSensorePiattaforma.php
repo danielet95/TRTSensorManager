@@ -11,6 +11,6 @@
 
 //    if ($post != null && isset($post['codice'])){
 
-        $db->executeQuery("UPDATE sensore SET aggiuntoPiattaforma = 1, amministratore = '$amministratore' WHERE codice = '$codice' AND amministratore IS NULL ");
+        $query = $db->executeQuery("UPDATE sensore SET aggiuntoPiattaforma = 1, amministratore = '$amministratore' WHERE codice = '$codice' AND amministratore IS NULL ");
 
 //    }
