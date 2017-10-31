@@ -1,6 +1,6 @@
 <?php
     include 'classes/DatabaseConnection.php';
-    header("Access-Control-Allow-Origin: *");
+    header('Access-Control-Allow-Origin: *');
 
     $post = json_decode(file_get_contents('php://input'), true);
     $codiceSensore = $post['codiceSensore'];
@@ -20,8 +20,8 @@
         while($row = $result->fetch_assoc()) {
 
             $array[] = Array(
-                'rilevazione' => $row["rilevazione"],
-                'codiceSensore' => $row["codiceSensore"]
+                'rilevazione' => $row['rilevazione'],
+                'codiceSensore' => $row['codiceSensore']
             );
         }
     }

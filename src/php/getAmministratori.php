@@ -1,6 +1,6 @@
 <?php
     include 'classes/DatabaseConnection.php';
-    header("Access-Control-Allow-Origin: *");
+    header('Access-Control-Allow-Origin: *');
 
 
     $db = new DatabaseConnection();
@@ -16,14 +16,13 @@
         while($row = $result->fetch_assoc()) {
 
             $array[] = Array(
-                'id' => $row["id"],
-                'nome' => $row["nome"],
-                'cognome' => $row["cognome"],
-                'username' => $row["username"],
-                'password' => $row["password"]
+                'id' => $row['id'],
+                'nome' => $row['nome'],
+                'cognome' => $row['cognome'],
+                'username' => $row['username'],
+                'password' => $row['password']
             );
 
-            //echo "codice: " . $row["codice"]. " - Name: " . $row["nome"]. " " . $row["tipo"]. "<br>";
         }
     }
 

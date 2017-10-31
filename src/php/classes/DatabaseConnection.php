@@ -9,9 +9,9 @@
 class DatabaseConnection
 {
     public $servername = 'localhost';
-    public $username = "root";
-    public $password = "";
-    public $dbname = "ingegneria";
+    public $username = 'root';
+    public $password = '';
+    public $dbname = 'ingegneria';
     private $conn;
 
     function connect(){
@@ -20,7 +20,7 @@ class DatabaseConnection
 
         // Check connection
         if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
+            die('Connection failed: ' . $this->conn->connect_error);
         }
 
         mysqli_select_db($this->conn, $this->dbname);
