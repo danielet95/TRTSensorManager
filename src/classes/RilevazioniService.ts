@@ -6,10 +6,14 @@ export class RilevazioniService {
 
   constructor(private http: Http) {}
 
-  public getRilevazioni(codiceSensore, url, onComplete) {
+  /*
+  Tramite una riochiesta http di tipo POST invia al database il codice del sensore e riceve le rilevazioni
+  effettuate da quel sensore.
+   */
+
+  public getRilevazioniSensore(codiceSensore, url, onComplete) {
 
     const body = JSON.stringify({codiceSensore: codiceSensore});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 

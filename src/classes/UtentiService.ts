@@ -1,44 +1,26 @@
 import { Http } from '@angular/http';
 import { Injectable} from '@angular/core';
-import {Utente} from './Utente';
 
 @Injectable()
 export class UtentiService {
 
-  private utente = new Utente();
-
   constructor(private http: Http) {}
 
-  // non serve più
-  public setUtente(id, nome, cognome, username, password, amministratore) {
-
-    this.utente.setId(id);
-    this.utente.nome = nome;
-    this.utente.cognome = cognome;
-    this.utente.username = username;
-    this.utente.password = password;
-    this.utente.amministratore = amministratore;
-
-    console.log(this.utente.nome);
-  }
-
-  // non serve più
-  public getUtente() {
-    return this.utente;
-  }
-
-  public getUtenti(onComplete) {
-    return this.http.get('http://localhost/ingegneria/src/getUtenti.php').subscribe(
+  public getUtentiDatabase(onComplete) {
+    return this.http.get('http://localhost/ingegneriajs/src/php/getUtenti.php').subscribe(
       (data) => onComplete(data.json())
     );
   }
 
-  public postUtenti(nome, cognome, username, password, idAmministratore, url, onComplete ) {
+  /*
+  Aggiunge un utente all'interno del database.
+   */
+
+  public aggiungiUtenteDatabase(nome, cognome, username, password, idAmministratore, url, onComplete ) {
 
     const obj = {'nomeUtente': nome, 'cognomeUtente': cognome, 'userUtente': username,
       'passUtente': password, idAmministratore: idAmministratore};
     const body = JSON.stringify(obj);
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -48,10 +30,14 @@ export class UtentiService {
     );
   }
 
-  public postId(idAmministratore, url, onComplete) {
+  /*
+  Tramite una richiesta http di tipo POST invia al database l'id dell'amministratore,
+  e riceve la lista degli utenti corrispondenti a quell'amministratore.
+   */
+
+  public getUtentiAmministratore(idAmministratore, url, onComplete) {
 
     const body = JSON.stringify({idAmministratore: idAmministratore});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -60,7 +46,12 @@ export class UtentiService {
     );
   }
 
-  public modificaUtente(id, nome, cognome, username, url, onComplete) {
+
+  /*
+  Modifica un utente all'interno del database.
+   */
+
+  public modificaUtenteDatabase(id, nome, cognome, username, url, onComplete) {
 
     const body = JSON.stringify({id: id, nome: nome, cognome: cognome, username: username});
     const headers = new Headers();
@@ -73,10 +64,13 @@ export class UtentiService {
   }
 
 
-  public rimuoviUtente(id, url, onComplete) {
+  /*
+  Rimuove un utente dal database.
+   */
+
+  public rimuoviUtenteDatabase(id, url, onComplete) {
 
     const body = JSON.stringify({id: id});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 

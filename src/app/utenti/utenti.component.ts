@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Utente} from '../../classes/Utente';
 import { UtentiService} from '../../classes/UtentiService';
-import {AmministratoriService} from '../../classes/AmministratoriService';
 import {Amministratore} from '../../classes/Amministratore';
 
 @Component({
@@ -24,27 +23,27 @@ export class UtentiComponent implements OnInit {
   public listaUtenti: Utente[] = [];
   public u = new Utente();
   utentiFilter: any = { cognome: '' };
-  // idAmministratore = this.amministratoriService.getId();
   public amministratore = JSON.parse(localStorage.getItem('Amministratore'));
 
-  constructor(private utentiService: UtentiService, private amministratoriService: AmministratoriService) { }
+  constructor(private utentiService: UtentiService) { }
 
   ngOnInit() {
 
-
-    this.utentiService.postId(this.amministratore.id, 'http://localhost/ingegneria/src/readUtenti.php',
+    this.utentiService.getUtentiAmministratore(this.amministratore.id, 'http://localhost/ingegneriajs/src/php/getUtentiPiattaforma.php',
       (data) => {this.listaUtenti = data; });
 
-    console.log(this.amministratore.id);
-
   }
+
+  /*
+  Aggiunge un utente alla piattaforma.
+   */
 
   public aggiungiUtentePiattaforma() {
     const nomeUtente = this.nome.nativeElement.value;
     const cognomeUtente = this.cognome.nativeElement.value;
     const userUtente = this.username.nativeElement.value;
     const passUtente = this.password.nativeElement.value;
-    const urlAggiunta = 'http://localhost/ingegneria/src/inserisciUtentePiattaforma.php';
+    const urlAggiunta = 'http://localhost/ingegneriajs/src/php/aggiungiUtentePiattaforma.php';
 
     if (this.nome.nativeElement.value === '' || cognomeUtente === '' || this.username.nativeElement.value === '') {
       alert('I dati inseriti non sono validi');
@@ -52,30 +51,37 @@ export class UtentiComponent implements OnInit {
       alert('Password non valida. Inserire una password di almeno 8 caratteri');
     } else {
 
-      this.utentiService.postUtenti(nomeUtente, cognomeUtente, userUtente, passUtente, this.amministratore.id, urlAggiunta,
+      this.utentiService.aggiungiUtenteDatabase(nomeUtente, cognomeUtente, userUtente, passUtente, this.amministratore.id, urlAggiunta,
         () => {
-          this.utentiService.postId(this.amministratore.id, 'http://localhost/ingegneria/src/readUtenti.php',
+          this.utentiService.getUtentiAmministratore(this.amministratore.id, 'http://localhost/ingegneriajs/src/php/getUtentiPiattaforma.php',
             (data) => {this.listaUtenti = data; });
+          this.modalAggiuntaUtente.close();
         });
 
     }
 
-    this.modalAggiuntaUtente.close();
 
   }
+
+  /*
+  Apre la finestra che permette di modificare i dati di un utente.
+  Riceve in input i che indica la posizione occupata dall'utente all'interno dell'array listaUtenti.
+   */
 
   public apriModificaUtente(i) {
 
     this.modalModificaUtente.open();
 
-    this.u.setId(this.listaUtenti[i].getId());
+    this.u.id = this.listaUtenti[i].id;
     this.u.nome = this.listaUtenti[i].nome;
     this.u.cognome = this.listaUtenti[i].cognome;
     this.u.username = this.listaUtenti[i].username;
 
-    console.log(this.u.nome);
-
   }
+
+  /*
+  Verifica i dati inseriti. Modifica i dati di un utente
+   */
 
   public modificaUtentePiattaforma() {
 
@@ -83,11 +89,13 @@ export class UtentiComponent implements OnInit {
       || this.usernameModificata.nativeElement.value === '') {
       alert('I dati inseriti non sono validi');
     } else {
-      const urlModifica = 'http://localhost/ingegneria/src/modificaUtentePiattaforma.php';
-      this.utentiService.modificaUtente(this.u.getId(), this.nomeModificato.nativeElement.value, this.cognomeModificato.nativeElement.value,
+      const urlModifica = 'http://localhost/ingegneriajs/src/php/modificaUtentePiattaforma.php';
+      this.utentiService.modificaUtenteDatabase(this.u.id, this.nomeModificato.nativeElement.value,
+        this.cognomeModificato.nativeElement.value,
         this.usernameModificata.nativeElement.value, urlModifica,
         () => {
-          this.utentiService.postId(this.amministratore.id, 'http://localhost/ingegneria/src/readUtenti.php',
+          this.utentiService.getUtentiAmministratore(this.amministratore.id,
+            'http://localhost/ingegneriajs/src/php/getUtentiPiattaforma.php',
             (data) => {this.listaUtenti = data; });
         });
       this.modalModificaUtente.close();
@@ -95,9 +103,14 @@ export class UtentiComponent implements OnInit {
 
   }
 
+  /*
+  Rimuove un utente dalla piattaforma.
+  Riceve in input i che indica la posizione occupata dall'utente all'interno dell'array listaUtenti.
+   */
+
   public rimuoviUtentePiattaforma(i) {
-    const urlRimozione = 'http://localhost/ingegneria/src/rimuoviUtentePiattaforma.php';
-    this.utentiService.rimuoviUtente(this.listaUtenti[i].getId(), urlRimozione,
+    const urlRimozione = 'http://localhost/ingegneriajs/src/php/rimuoviUtentePiattaforma.php';
+    this.utentiService.rimuoviUtenteDatabase(this.listaUtenti[i].id, urlRimozione,
       () => {
       this.listaUtenti.splice(i, 1);
     });

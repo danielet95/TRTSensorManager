@@ -1,9 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SensoriService} from '../../classes/SensoriService';
 import {Sensore} from '../../classes/Sensore';
-import {AmministratoriService} from '../../classes/AmministratoriService';
 import {Router} from '@angular/router';
-import {UtentiService} from '../../classes/UtentiService';
 
 @Component({
   selector: 'app-sensori',
@@ -16,32 +14,32 @@ export class SensoriUtentiComponent implements OnInit {
   @ViewChild('codice') codice;
   @ViewChild('myModal') modal;
   public listaSensori: Sensore[] = [];
-  // public idAmministratore = this.amministratoriService.getId();
   public amministratore = JSON.parse(localStorage.getItem('Amministratore'));
   public utente = JSON.parse(localStorage.getItem('Utente'));
-  // public idUtente = this.utentiService.getUtente().id;
 
-  constructor(private sensoriService: SensoriService, private amministratoriService: AmministratoriService,
-              private utentiService: UtentiService, private router: Router) {}
+  constructor(private sensoriService: SensoriService, private router: Router) {}
 
   ngOnInit() {
 
-    this.sensoriService.getSensoriPiattaformaUtenti(this.amministratore.id, this.utente.id,
-      'http://localhost/ingegneria/src/readSensoriUtenti.php',
+    this.sensoriService.getSensoriPiattaformaUtenti(this.utente.amministratore, this.utente.id,
+      'http://localhost/ingegneriajs/src/php/getSensoriUtenti.php',
       (data) => {this.listaSensori = data; });
-
-    console.log(this.amministratore.id);
-    console.log(this.utente.id);
   }
 
-  public aggiungiSensoriDashboard() {
+  /*
+  Controlla quali sensori sono stati selezionati e li aggiunge alla dashboard dell'utente.
+   */
+
+  public aggiungiSensoriDashboardUtente() {
 
       let checked = false;
       for (let i = 0; i < this.listaSensori.length; i++) {
 
         if (this.listaSensori[i].aggiuntoDashboardUtente) {
-          console.log(this.listaSensori[i].codice);
-          this.sensoriService.aggiungiSensoriDashboardUtenti(this.utente.id, this.listaSensori[i].codice,
+
+
+          this.sensoriService.updateVisibilitaSensoriDashboardUtenti(this.listaSensori[i].codice, this.utente.id,
+            'http://localhost/ingegneriajs/src/php/aggiungiSensoriDashboardUtenti.php',
             data => {
               setTimeout(() => {this.router.navigate(['./dashboard-utenti']); }, 1000);
             });

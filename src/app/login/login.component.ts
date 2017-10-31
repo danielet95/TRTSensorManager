@@ -16,26 +16,32 @@ export class LoginComponent implements OnInit {
   @ViewChild('password') password;
   public listaUtenti: Utente[] = [];
   public listaAmministratori: Amministratore[] = [];
-  public idUtente: number;
-  public idAmministratore: number;
 
 
   constructor(private amministratoriService: AmministratoriService, private utentiService: UtentiService, private router: Router) {
   }
 
   ngOnInit() {
-    this.amministratoriService.getAmministratori(
+    this.amministratoriService.getAmministratoriDatabase(
       (data) => {
         this.listaAmministratori = data;
       }
     );
-    this.utentiService.getUtenti(
+    this.utentiService.getUtentiDatabase(
       (data) => {
         this.listaUtenti = data;
       }
     );
+
   }
 
+  /*
+  Verfica che le credenziali immesse dall'utente/amministratore siano corrette.
+  Se si tratta di un amministratore lo memorizza nella localStorage con la chiave 'Amministratore' e lo reindirizza
+  alla dashboard degli amministratori.
+  Se si tratta di un utente lo memorizza nella localStorage con la chiave 'Utente' e lo reindirizza
+  alla dashboard degli utenti.
+   */
 
   public verificaCredenziali() {
 
@@ -44,14 +50,6 @@ export class LoginComponent implements OnInit {
       if (this.listaAmministratori[i].username === this.username.nativeElement.value) {
         if (this.listaAmministratori[i].password === this.password.nativeElement.value) {
           trovato = true;
-          this.idAmministratore = this.listaAmministratori[i].id;
-          console.log(this.listaAmministratori[i].id);
-          this.amministratoriService.setId(this.listaAmministratori[i].id);
-
-          this.amministratoriService.setAmministratore(this.listaAmministratori[i].id, this.listaAmministratori[i].nome,
-            this.listaAmministratori[i].cognome, this.listaAmministratori[i].username, this.listaAmministratori[i].password);
-
-          console.log(this.amministratoriService.getAmministratore().nome);
 
           localStorage.setItem('Amministratore', JSON.stringify(this.listaAmministratori[i]));
 
@@ -59,22 +57,14 @@ export class LoginComponent implements OnInit {
         }
       }
     }
-    console.log(trovato);
+
     if (!trovato) {
       for (let i = 0; i < this.listaUtenti.length && (!trovato); i++) {
         if (this.listaUtenti[i].username === this.username.nativeElement.value) {
           if (this.listaUtenti[i].password === this.password.nativeElement.value) {
             trovato = true;
-            this.idUtente = this.listaUtenti[i].getId();
-
-            this.amministratoriService.setId(this.listaUtenti[i].amministratore);
-
-            this.utentiService.setUtente(this.listaUtenti[i].getId(), this.listaUtenti[i].nome, this.listaUtenti[i].cognome,
-              this.listaUtenti[i].username, this.listaUtenti[i].password, this.listaUtenti[i].amministratore);
 
             localStorage.setItem('Utente', JSON.stringify(this.listaUtenti[i]));
-
-            console.log(this.utentiService.getUtente().nome);
 
             this.router.navigate(['/dashboard-utenti']);
           }

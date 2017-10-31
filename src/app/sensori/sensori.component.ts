@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SensoriService} from '../../classes/SensoriService';
 import {Sensore} from '../../classes/Sensore';
-import {AmministratoriService} from '../../classes/AmministratoriService';
 import {Router} from '@angular/router';
 
 @Component({
@@ -16,28 +15,36 @@ export class SensoriComponent implements OnInit {
   @ViewChild('modalConfermaRimozioneSensore') modalConfermaRimozioneSensore;
   public listaSensoriDatabase: Sensore [] = [];
   public listaSensori: Sensore[] = [];
-  // public idAmministratore = this.amministratoriService.getId();
   public amministratore = JSON.parse(localStorage.getItem('Amministratore'));
   public posizioneSensore;
   sensoriFilter: any = { codice: '' };
 
-  constructor(private sensoriService: SensoriService, private amministratoriService: AmministratoriService, private router: Router) {}
+  constructor(private sensoriService: SensoriService, private router: Router) {}
 
   ngOnInit() {
 
-    this.sensoriService.postId(this.amministratore.id, 'http://localhost/ingegneria/src/readSensoriAmministratori.php',
+    this.sensoriService.getSensoriPiattaformaAmministratore(this.amministratore.id,
+      'http://localhost/ingegneriajs/src/php/getSensoriAmministratori.php',
       (data) => {this.listaSensori = data; });
 
   }
 
+  /*
+  Apre la finestra che permette di aggiungere un sensore alla piattaforma.
+   */
+
   public apriModalAggiuntaSensorePiattafroma() {
 
-    this.sensoriService.getSensoriDatabase('http://localhost/ingegneria/src/getSensoriDatabase.php',
+    this.sensoriService.getSensoriDatabase('http://localhost/ingegneriajs/src/php/getSensoriDatabase.php',
       (data) => {this.listaSensoriDatabase = data; });
 
     this.modalAggiuntaSensorePiattaforma.open();
   }
 
+  /*
+  Controlla che il codice inserito nella finestra di aggiunta dei sensori sia presente nel database.
+  Se è presente aggiunge il sensore avente quel codice alla piattaforma.
+   */
 
   public aggiungiSensorePiattaforma() {
 
@@ -45,7 +52,6 @@ export class SensoriComponent implements OnInit {
     let aggiunto = false;
     for (let i = 0; i < this.listaSensoriDatabase.length; i++) {
       if (this.codice.nativeElement.value === this.listaSensoriDatabase[i].codice) {
-        console.log(this.listaSensoriDatabase[i].amministratore);
         if (this.listaSensoriDatabase[i].amministratore === null) {
           trovato = true;
         } else {
@@ -55,10 +61,11 @@ export class SensoriComponent implements OnInit {
     }
 
     if (trovato) {
-      const urlAggiunta = 'http://localhost/ingegneria/src/inserisciSensorePiattaforma.php';
-      this.sensoriService.postSensori(this.codice.nativeElement.value, this.amministratore.id, urlAggiunta,
+      const urlAggiunta = 'http://localhost/ingegneriajs/src/php/aggiungiSensorePiattaforma.php';
+      this.sensoriService.aggiungiRimuoviSensorePiattaforma(this.codice.nativeElement.value, this.amministratore.id, urlAggiunta,
         () => {
-          this.sensoriService.postId(this.amministratore.id, 'http://localhost/ingegneria/src/readSensoriAmministratori.php',
+          this.sensoriService.getSensoriPiattaformaAmministratore(this.amministratore.id,
+            'http://localhost/ingegneriajs/src/php/getSensoriAmministratori.php',
             (data) => {this.listaSensori = data; });
         });
       this.modalAggiuntaSensorePiattaforma.close();
@@ -74,6 +81,10 @@ export class SensoriComponent implements OnInit {
 
   }
 
+  /*
+  Apre la finestra per confermare la rimozione di un sensore dalla piattaforma.
+   */
+
   public apriModalConfermaRimozioneSensore(i) {
 
     this.modalConfermaRimozioneSensore.open();
@@ -82,23 +93,33 @@ export class SensoriComponent implements OnInit {
 
   }
 
+  /*
+  Rimuove il sensore dalla piattaforma
+   */
+
   public rimuoviSensorePiattaforma() {
-    // const removed = this.listaSensori.splice(i, 1);
-    const urlRimozione = 'http://localhost/ingegneria/src/rimuoviSensorePiattaforma.php';
-    this.sensoriService.updateVisibilitaSensori(this.listaSensori[this.posizioneSensore].codice, false, () => {});
-    this.sensoriService.postSensori(this.listaSensori[this.posizioneSensore].codice, this.amministratore.id, urlRimozione,
+
+    const urlRimozione = 'http://localhost/ingegneriajs/src/php/rimuoviSensorePiattaforma.php';
+    this.sensoriService.updateVisibilitaSensoriDashboardAmministratore(this.listaSensori[this.posizioneSensore].codice, false, () => {});
+    this.sensoriService.aggiungiRimuoviSensorePiattaforma(this.listaSensori[this.posizioneSensore].codice,
+      this.amministratore.id, urlRimozione,
       () => {
       this.listaSensori.splice(this.posizioneSensore, 1);
     });
     this.modalConfermaRimozioneSensore.close();
   }
 
-  public aggiungiSensoriDashboard() {
+  /*
+  Controlla quali sensori sono stati selezionati e li aggiunge alla dashboard dell'amministratore.
+   */
+
+  public aggiungiSensoriDashboardAmministratore() {
 
     let checked = false;
     for (let i = 0; i < this.listaSensori.length; i++) {
       if (this.listaSensori[i].aggiuntoDashboardAmministratore) {
-        this.sensoriService.updateVisibilitaSensori(this.listaSensori[i].codice, this.listaSensori[i].aggiuntoDashboardAmministratore,
+        this.sensoriService.updateVisibilitaSensoriDashboardAmministratore(this.listaSensori[i].codice,
+          this.listaSensori[i].aggiuntoDashboardAmministratore,
           () => {
             setTimeout(() => {this.router.navigate(['./dashboard']); }, 1000);
           });

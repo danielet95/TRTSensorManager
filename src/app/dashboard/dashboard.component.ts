@@ -3,7 +3,6 @@ import {SensoriService} from '../../classes/SensoriService';
 import {Sensore} from '../../classes/Sensore';
 import {Rilevazione} from '../../classes/Rilevazione';
 import {RilevazioniService} from '../../classes/RilevazioniService';
-import {AmministratoriService} from '../../classes/AmministratoriService';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,33 +17,43 @@ export class DashboardComponent implements OnInit {
   public listaSensori: Sensore[] = [];
   public codiceSensore: string;
   public listaRilevazioni: Rilevazione[] = [];
-  // public idAmministratore = this.amministratoriService.getId();
   public amministratore = JSON.parse(localStorage.getItem('Amministratore'));
   @ViewChild ('modalRilevazioni') modalRilevazioni;
 
 
-  constructor(private sensoriService: SensoriService, private rilevazioniService: RilevazioniService,
-              private amministratoriService: AmministratoriService) {}
+  constructor(private sensoriService: SensoriService, private rilevazioniService: RilevazioniService) {}
 
   ngOnInit() {
 
-    this.sensoriService.getSensoriDashboard(this.amministratore.id, 'http://localhost/ingegneria/src/getSensoriDashboard.php',
+    this.sensoriService.getSensoriDashboardAmministratore(this.amministratore.id,
+      'http://localhost/ingegneriajs/src/php/getSensoriDashboard.php',
     (data) => {this.listaSensori = data; }
    );
+
   }
 
-  public rimuoviSensoreDashboard(i) {
-    this.sensoriService.updateVisibilitaSensori(this.listaSensori[i].codice, false,
+  /*
+  Rimuove un sensore dalla dashboard dell'amministratore.
+  Riceve in input i che indica la posizione occupata dal sensore all'interno dell'array listaSensori.
+   */
+
+  public rimuoviSensoreDashboardAmministratore(i) {
+    this.sensoriService.updateVisibilitaSensoriDashboardAmministratore(this.listaSensori[i].codice, false,
       () => {
         this.listaSensori.splice(i, 1);
       });
   }
 
+  /*
+  Mostra le rilevazioni effettuate da un sensore.
+  Riceve in input i che indica la posizione occupata dal sensore all'internp dell'array listaSensori.
+   */
+
   public mostraRilevazioni(i) {
 
-      // this.modalRilevazioni.open();
       this.codiceSensore = this.listaSensori[i].codice;
-      this.rilevazioniService.getRilevazioni(this.listaSensori[i].codice, 'http://localhost/ingegneria/src/readRilevazioni.php',
+      this.rilevazioniService.getRilevazioniSensore(this.listaSensori[i].codice,
+        'http://localhost/ingegneriajs/src/php/getRilevazioni.php',
         (data) => {this.listaRilevazioni = data,
           setTimeout(() => {
             if (this.listaRilevazioni.length > 0) {

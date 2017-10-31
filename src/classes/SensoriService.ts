@@ -1,4 +1,4 @@
-import {Http, RequestOptions} from '@angular/http';
+import {Http} from '@angular/http';
 import {Injectable} from '@angular/core';
 import { Headers} from '@angular/http';
 
@@ -14,11 +14,14 @@ export class SensoriService {
     );
   }
 
+  /*
+  Tramite una richiesta http di tipo POST invia al database l'id dell'amministratore e riceve la lista dei
+  sensori aggiunti alla dashboard da quell'amministratore.
+   */
 
-  public getSensoriDashboard(idAmministratore, url, onComplete) {
+  public getSensoriDashboardAmministratore(idAmministratore, url, onComplete) {
 
     const body = JSON.stringify({idAmministratore: idAmministratore});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -27,10 +30,14 @@ export class SensoriService {
     );
   }
 
-  public getSensoriDashboardUtenti(idUtente, url, onComplete) {
+  /*
+  Tramite una richiesta http di tipo POST invia al database l'id dell'utente e riceve la lista dei
+  sensori aggiunti alla dashboard da quell'utente.
+   */
+
+  public getSensoriDashboardUtente(idUtente, url, onComplete) {
 
     const body = JSON.stringify({idUtente: idUtente});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -38,11 +45,15 @@ export class SensoriService {
       (data) => onComplete(data.json())
     );
   }
+
+  /*
+  Tramite una richiesta http di tipo POST invia al database l'id dell'utente e l'id dell'amministratore,
+  e riceve la lista dei sensori che l'utente corrispondente a quell'amministratore può visualizzare sulla piattaforma
+   */
 
   public getSensoriPiattaformaUtenti(idAmministratore, idUtente, url, onComplete) {
 
     const body = JSON.stringify({idAmministratore: idAmministratore, idUtente: idUtente});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -51,10 +62,15 @@ export class SensoriService {
     );
   }
 
-  public postSensori(codice, idAmministratore, url, onComplete) {
+
+  /*
+  Tramite una richiesta http di tipo POST invia ala database il codice del sensore e l'id dell'amministratore.
+  In base all'url della pagina php che gli viene passato aggiunge o rimuovi alla piattaforma il sensore con quel codice.
+   */
+
+  public aggiungiRimuoviSensorePiattaforma(codice, idAmministratore, url, onComplete) {
 
     const body = JSON.stringify({codice: codice, idAmministratore: idAmministratore});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -64,10 +80,14 @@ export class SensoriService {
     );
   }
 
-  public postId(idAmministratore, url, onComplete) {
+  /*
+  Tramite una richiesta http di tipo POST invia al database l'id dell'amministratore,
+  e riceve la lista dei sensori che quell'amministratore può visualizzare sulla piattaforma.
+   */
+
+  public getSensoriPiattaformaAmministratore(idAmministratore, url, onComplete) {
 
     const body = JSON.stringify({idAmministratore: idAmministratore});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
@@ -76,46 +96,39 @@ export class SensoriService {
     );
   }
 
+  /*
+  Aggiorna nel database la visibilità del sensore all'interno della dashboard dell'amministratore.
+  Quando il sensore con codice 'codice' sarà alla dashboard la visibilità sarà true,
+  altrimenti sarà false.
+   */
 
-  public updateVisibilitaSensori(codice, visibilita, onComplete) {
+  public updateVisibilitaSensoriDashboardAmministratore(codice, visibilita, onComplete) {
 
     const body = JSON.stringify({codice: codice, visibilita: visibilita});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    this.http.post('http://localhost/ingegneria/src/modificaVisibilitaSensore.php', body, headers).subscribe(
+    this.http.post('http://localhost/ingegneriajs/src/php/modificaVisibilitaSensore.php', body, headers).subscribe(
       onComplete,
       err => console.error('ERRORE')
     );
   }
 
-  public aggiungiSensoriDashboardUtenti(id, codice, onComplete) {
+  /*
+  In base all'url che gli viene passata, aggiunge o rimuove un sensore dalla tabella sensore_utente.
+  In questa tabella sono presenti tutti i sensori che ogni utente aggiunge alla dashboard.
+   */
 
-    const body = JSON.stringify({id: id, codice: codice});
-    console.log(body);
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json; charset=utf-8');
-
-    this.http.post('http://localhost/ingegneria/src/aggiungiSensoriDashboardUtenti.php', body, headers).subscribe(
-      onComplete,
-      err => console.error('ERRORE')
-    );
-  }
-
-  public rimuoviSensoreDashboardUtenti(codice, idUtente, onComplete) {
+  public updateVisibilitaSensoriDashboardUtenti(codice, idUtente, url, onComplete) {
 
     const body = JSON.stringify({codice: codice, idUtente: idUtente});
-    console.log(body);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    this.http.post('http://localhost/ingegneria/src/rimuoviSensoreDashboardUtenti.php', body, headers).subscribe(
+    this.http.post(url, body, headers).subscribe(
       onComplete,
       err => console.error('ERRORE')
     );
-
   }
-
 
 }

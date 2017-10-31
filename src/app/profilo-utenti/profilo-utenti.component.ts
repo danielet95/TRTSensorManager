@@ -1,6 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AmministratoriService} from '../../classes/AmministratoriService';
-import {UtentiService} from '../../classes/UtentiService';
 import {Http} from '@angular/http';
 
 @Component({
@@ -11,8 +9,6 @@ import {Http} from '@angular/http';
 
 export class ProfiloUtentiComponent implements OnInit {
 
-  // public utente = this.utentiService.getUtente();
-  // public amministratore = this.amministratoriService.getAmministratore();
   public utente = JSON.parse(localStorage.getItem('Utente'));
   @ViewChild('passwordAttuale') passwordAttuale;
   @ViewChild('nuovaPassword') nuovaPassword;
@@ -20,14 +16,15 @@ export class ProfiloUtentiComponent implements OnInit {
   @ViewChild('modalModificaPassword') modalModificaPassword;
 
 
-  constructor(private amministratoriService: AmministratoriService, private utentiService: UtentiService, private http: Http) { }
+  constructor(private http: Http) { }
 
   ngOnInit() {
 
-    console.log(this.amministratoriService.getAmministratore().nome);
-    console.log(this.utentiService.getUtente().nome);
-
   }
+
+  /*
+  Modifica la password di un utente ed effettua i vari controlli.
+   */
 
   public modificaPassword() {
 
@@ -39,9 +36,8 @@ export class ProfiloUtentiComponent implements OnInit {
           const headers = new Headers();
           headers.append('Content-Type', 'application/json; charset=utf-8');
 
-          console.log(this.nuovaPassword.nativeElement.value);
 
-          this.http.post('http://localhost/ingegneria/src/modificaPasswordUtente.php', body, headers).subscribe(
+          this.http.post('http://localhost/ingegneriajs/src/php/modificaPasswordUtente.php', body, headers).subscribe(
             () => {},
             err => console.error('ERRORE')
           );
