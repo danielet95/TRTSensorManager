@@ -13,13 +13,13 @@
     $result = $db->executeQuery("SELECT * FROM rilevazione WHERE codiceSensore = '$codiceSensore'");
 
 
-    $array = Array();
+    $array = array();
 
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
 
-            $array[] = Array(
+            $array[] = array(
                 'rilevazione' => $row['rilevazione'],
                 'codiceSensore' => $row['codiceSensore']
             );

@@ -12,13 +12,13 @@
     $result = $db->executeQuery("SELECT * FROM sensore INNER JOIN sensore_utente ON sensore.codice = sensore_utente.sensore
                                        WHERE utente = '$utente'");
 
-    $array = Array();
+    $array = array();
 
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
 
-            $array[] = Array(
+            $array[] = array(
                 'codice' => $row['codice'],
                 'nome' => $row['nome'],
                 'tipo' => $row['tipo'],

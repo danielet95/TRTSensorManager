@@ -11,13 +11,13 @@
 
     $result = $db->executeQuery("SELECT * FROM utente WHERE amministratore = '$amministratore'");
 
-    $array = Array();
+    $array = array();
 
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
 
-            $array[] = Array(
+            $array[] = array(
                 'id' => $row['id'],
                 'nome' => $row['nome'],
                 'cognome' => $row['cognome'],

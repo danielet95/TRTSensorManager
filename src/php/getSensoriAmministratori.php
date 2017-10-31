@@ -11,13 +11,13 @@
 
     $result = $db->executeQuery("SELECT * FROM sensore WHERE aggiuntoPiattaforma = 1 AND amministratore = '$amministratore' AND aggiuntoDashboardAmministratore = false");
 
-    $array = Array();
+    $array = array();
 
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
 
-            $array[] = Array(
+            $array[] = array(
                 'codice' => $row['codice'],
                 'nome' => $row['nome'],
                 'tipo' => $row['tipo'],
