@@ -21,9 +21,11 @@ class DatabaseConnection
         // Check connection
         if ($this->conn->connect_error) {
             die('Connection failed: ' . $this->conn->connect_error);
-        }
+        } else {
 
-        mysqli_select_db($this->conn, $this->dbname);
+          mysqli_select_db($this->conn, $this->dbname);
+
+        }
     }
 
     function executeQuery($query) {
