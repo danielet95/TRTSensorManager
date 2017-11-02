@@ -11,5 +11,6 @@
     if (isset($post['codice']) && $post['codice']!= null){
 
       $query = $db->executeQuery("UPDATE sensore SET aggiuntoPiattaforma = 0, amministratore = NULL WHERE codice = '$codice' ");
+      $query = $db->executeQuery("DELETE FROM rilevazione WHERE codiceSensore='$codice'");
 
     }
