@@ -7,7 +7,7 @@ export class UtentiService {
   constructor(private http: Http) {}
 
   public getUtentiDatabase(onComplete) {
-    return this.http.get('http://localhost/ingegneriajs/src/php/getUtenti.php').subscribe(
+    return this.http.get('http://localhost/php/getUtenti.php').subscribe(
       (data) => onComplete(data.json())
     );
   }

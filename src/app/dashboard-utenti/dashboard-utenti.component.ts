@@ -25,7 +25,7 @@ export class DashboardUtentiComponent implements OnInit {
 
   ngOnInit() {
 
-    this.sensoriService.getSensoriDashboardUtente(this.utente.id, 'http://localhost/ingegneriajs/src/php/getSensoriDashboardUtenti.php',
+    this.sensoriService.getSensoriDashboardUtente(this.utente.id, 'http://localhost/php/getSensoriDashboardUtenti.php',
       (data) => {this.listaSensori = data; }
     );
   }
@@ -38,7 +38,7 @@ export class DashboardUtentiComponent implements OnInit {
   public rimuoviSensoreDashboardUtente(i) {
 
       this.sensoriService.updateVisibilitaSensoriDashboardUtenti(this.listaSensori[i].codice, this.utente.id,
-        'http://localhost/ingegneriajs/src/php/rimuoviSensoreDashboardUtenti.php',
+        'http://localhost/php/rimuoviSensoreDashboardUtenti.php',
       () => {
         this.listaSensori.splice(i, 1);
       });
@@ -52,7 +52,7 @@ export class DashboardUtentiComponent implements OnInit {
   public mostraRilevazioni(i) {
 
     this.codiceSensore = this.listaSensori[i].codice;
-    this.rilevazioniService.getRilevazioniSensore(this.listaSensori[i].codice, 'http://localhost/ingegneriajs/src/php/getRilevazioni.php',
+    this.rilevazioniService.getRilevazioniSensore(this.listaSensori[i].codice, 'http://localhost/php/getRilevazioni.php',
       (data) => {this.listaRilevazioni = data,
         setTimeout(() => {
           if (this.listaRilevazioni.length > 0) {

@@ -29,7 +29,7 @@ export class UtentiComponent implements OnInit {
 
   ngOnInit() {
 
-    this.utentiService.getUtentiAmministratore(this.amministratore.id, 'http://localhost/ingegneriajs/src/php/getUtentiPiattaforma.php',
+    this.utentiService.getUtentiAmministratore(this.amministratore.id, 'http://localhost/php/getUtentiPiattaforma.php',
       (data) => {this.listaUtenti = data; });
 
   }
@@ -43,7 +43,7 @@ export class UtentiComponent implements OnInit {
     const cognomeUtente = this.cognome.nativeElement.value;
     const userUtente = this.username.nativeElement.value;
     const passUtente = this.password.nativeElement.value;
-    const urlAggiunta = 'http://localhost/ingegneriajs/src/php/aggiungiUtentePiattaforma.php';
+    const urlAggiunta = 'http://localhost/php/aggiungiUtentePiattaforma.php';
 
     if (this.nome.nativeElement.value === '' || cognomeUtente === '' || this.username.nativeElement.value === '') {
       alert('I dati inseriti non sono validi');
@@ -53,7 +53,7 @@ export class UtentiComponent implements OnInit {
 
       this.utentiService.aggiungiUtenteDatabase(nomeUtente, cognomeUtente, userUtente, passUtente, this.amministratore.id, urlAggiunta,
         () => {
-          this.utentiService.getUtentiAmministratore(this.amministratore.id, 'http://localhost/ingegneriajs/src/php/getUtentiPiattaforma.php',
+          this.utentiService.getUtentiAmministratore(this.amministratore.id, 'http://localhost/php/getUtentiPiattaforma.php',
             (data) => {this.listaUtenti = data; });
           this.modalAggiuntaUtente.close();
         });
@@ -89,13 +89,13 @@ export class UtentiComponent implements OnInit {
       || this.usernameModificata.nativeElement.value === '') {
       alert('I dati inseriti non sono validi');
     } else {
-      const urlModifica = 'http://localhost/ingegneriajs/src/php/modificaUtentePiattaforma.php';
+      const urlModifica = 'http://localhost/php/modificaUtentePiattaforma.php';
       this.utentiService.modificaUtenteDatabase(this.u.id, this.nomeModificato.nativeElement.value,
         this.cognomeModificato.nativeElement.value,
         this.usernameModificata.nativeElement.value, urlModifica,
         () => {
           this.utentiService.getUtentiAmministratore(this.amministratore.id,
-            'http://localhost/ingegneriajs/src/php/getUtentiPiattaforma.php',
+            'http://localhost/php/getUtentiPiattaforma.php',
             (data) => {this.listaUtenti = data; });
         });
       this.modalModificaUtente.close();
@@ -109,7 +109,7 @@ export class UtentiComponent implements OnInit {
    */
 
   public rimuoviUtentePiattaforma(i) {
-    const urlRimozione = 'http://localhost/ingegneriajs/src/php/rimuoviUtentePiattaforma.php';
+    const urlRimozione = 'http://localhost/php/rimuoviUtentePiattaforma.php';
     this.utentiService.rimuoviUtenteDatabase(this.listaUtenti[i].id, urlRimozione,
       () => {
       this.listaUtenti.splice(i, 1);

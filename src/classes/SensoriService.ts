@@ -108,7 +108,7 @@ export class SensoriService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    this.http.post('http://localhost/ingegneriajs/src/php/modificaVisibilitaSensore.php', body, headers).subscribe(
+    this.http.post('http://localhost/php/modificaVisibilitaSensore.php', body, headers).subscribe(
       onComplete,
       err => console.error('ERRORE')
     );

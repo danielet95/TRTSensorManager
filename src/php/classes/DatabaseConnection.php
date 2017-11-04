@@ -9,9 +9,9 @@
 class DatabaseConnection
 {
     public $servername = 'localhost';
-    public $username = 'root';
+    public $username = 'sensormanager';
     public $password = '';
-    public $dbname = 'ingegneria';
+    public $dbname = 'my_sensormanager';
     private $conn;
 
     function connect(){

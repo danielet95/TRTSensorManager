@@ -25,7 +25,6 @@
                 'dataCreazione' => $row['dataCreazione'],
                 'aggiuntoPiattaforma' => $row['aggiuntoPiattaforma'],
                 'aggiuntoDashboardAmministratore' => $row['aggiuntoDashboardAmministratore'] == 1 ? true : false,
-                'aggiuntoDashboardUtente' => $row['aggiuntoDashboardUtente'] == 1 ? true : false,
                 'amministratore' => $row['amministratore']
             );
         }

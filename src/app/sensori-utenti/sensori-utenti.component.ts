@@ -22,7 +22,7 @@ export class SensoriUtentiComponent implements OnInit {
   ngOnInit() {
 
     this.sensoriService.getSensoriPiattaformaUtenti(this.utente.amministratore, this.utente.id,
-      'http://localhost/ingegneriajs/src/php/getSensoriUtenti.php',
+      'http://localhost/php/getSensoriUtenti.php',
       (data) => {this.listaSensori = data; });
   }
 
@@ -39,7 +39,7 @@ export class SensoriUtentiComponent implements OnInit {
 
 
           this.sensoriService.updateVisibilitaSensoriDashboardUtenti(this.listaSensori[i].codice, this.utente.id,
-            'http://localhost/ingegneriajs/src/php/aggiungiSensoriDashboardUtenti.php',
+            'http://localhost/php/aggiungiSensoriDashboardUtenti.php',
             data => {
               setTimeout(() => {this.router.navigate(['./dashboard-utenti']); }, 1000);
             });

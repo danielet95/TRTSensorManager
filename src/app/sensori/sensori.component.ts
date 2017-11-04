@@ -24,7 +24,7 @@ export class SensoriComponent implements OnInit {
   ngOnInit() {
 
     this.sensoriService.getSensoriPiattaformaAmministratore(this.amministratore.id,
-      'http://localhost/ingegneriajs/src/php/getSensoriAmministratori.php',
+      'http://localhost/php/getSensoriAmministratori.php',
       (data) => {this.listaSensori = data; });
 
   }
@@ -35,7 +35,7 @@ export class SensoriComponent implements OnInit {
 
   public apriModalAggiuntaSensorePiattafroma() {
 
-    this.sensoriService.getSensoriDatabase('http://localhost/ingegneriajs/src/php/getSensoriDatabase.php',
+    this.sensoriService.getSensoriDatabase('http://localhost/php/getSensoriDatabase.php',
       (data) => {this.listaSensoriDatabase = data; });
 
     this.modalAggiuntaSensorePiattaforma.open();
@@ -61,11 +61,11 @@ export class SensoriComponent implements OnInit {
     }
 
     if (trovato) {
-      const urlAggiunta = 'http://localhost/ingegneriajs/src/php/aggiungiSensorePiattaforma.php';
+      const urlAggiunta = 'http://localhost/php/aggiungiSensorePiattaforma.php';
       this.sensoriService.aggiungiRimuoviSensorePiattaforma(this.codice.nativeElement.value, this.amministratore.id, urlAggiunta,
         () => {
           this.sensoriService.getSensoriPiattaformaAmministratore(this.amministratore.id,
-            'http://localhost/ingegneriajs/src/php/getSensoriAmministratori.php',
+            'http://localhost/php/getSensoriAmministratori.php',
             (data) => {this.listaSensori = data; });
         });
       this.modalAggiuntaSensorePiattaforma.close();
@@ -99,7 +99,7 @@ export class SensoriComponent implements OnInit {
 
   public rimuoviSensorePiattaforma() {
 
-    const urlRimozione = 'http://localhost/ingegneriajs/src/php/rimuoviSensorePiattaforma.php';
+    const urlRimozione = 'http://localhost/php/rimuoviSensorePiattaforma.php';
     this.sensoriService.updateVisibilitaSensoriDashboardAmministratore(this.listaSensori[this.posizioneSensore].codice, false, () => {});
     this.sensoriService.aggiungiRimuoviSensorePiattaforma(this.listaSensori[this.posizioneSensore].codice,
       this.amministratore.id, urlRimozione,

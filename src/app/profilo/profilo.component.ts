@@ -37,7 +37,7 @@ export class ProfiloComponent implements OnInit {
           headers.append('Content-Type', 'application/json; charset=utf-8');
 
 
-          this.http.post('http://localhost/ingegneriajs/src/php/modificaPasswordAmministratore.php', body, headers).subscribe(
+          this.http.post('http://localhost/php/modificaPasswordAmministratore.php', body, headers).subscribe(
             () => {},
             err => console.error('ERRORE')
           );

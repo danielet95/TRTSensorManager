@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
     this.sensoriService.getSensoriDashboardAmministratore(this.amministratore.id,
-      'http://localhost/ingegneriajs/src/php/getSensoriDashboard.php',
+      'http://localhost/php/getSensoriDashboard.php',
     (data) => {this.listaSensori = data; }
    );
 
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
       this.codiceSensore = this.listaSensori[i].codice;
       this.rilevazioniService.getRilevazioniSensore(this.listaSensori[i].codice,
-        'http://localhost/ingegneriajs/src/php/getRilevazioni.php',
+        'http://localhost/php/getRilevazioni.php',
         (data) => {this.listaRilevazioni = data,
           setTimeout(() => {
             if (this.listaRilevazioni.length > 0) {

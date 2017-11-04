@@ -12,7 +12,7 @@ export class AmministratoriService {
    */
 
   public getAmministratoriDatabase(onComplete) {
-    return this.http.get('http://localhost/ingegneriajs/src/php/getAmministratori.php').subscribe(
+    return this.http.get('http://localhost/php/getAmministratori.php').subscribe(
       (data) => onComplete(data.json())
     );
 
